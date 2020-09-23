@@ -1,0 +1,147 @@
+*{
+    margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    list-style: none;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+
+.leftPanel{
+    border: 1px solid black;
+}
+.header{
+    border: 1px solid black;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.screen{
+    height: 130px;
+}
+
+.operations{
+    font-size: .8em;
+    text-align: right;
+    padding: 6px;
+}
+
+.accumulator{
+    font-size: 1.8em;
+    text-align: right;
+    padding: 6px;
+    font-weight: 600;
+}
+
+.keyboard{
+    width: 100%;
+}
+
+.row{
+    display: flex;
+    justify-content: space-around;
+}
+
+.memory{
+    display: flex;
+    
+}
+
+.memoryKey{
+    width: 16.4%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .7em;
+    font-weight: bold;
+    margin: 1px;
+}
+
+.key{
+    width: 24.8%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+.rightPanel{
+    border: 1px solid black;
+}
+
+.options{
+    border: 1px solid black;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.option{
+    width: 85px;
+    font-size: .9em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.record{
+    padding: 2px;
+    margin-top: 3px;
+    margin-bottom: 16px;
+}
+
+.accumulator.history{
+    font-size: 1.4em;
+}
+
+@media only screen and (min-width: 426px) {
+    .calculator{
+        width: 80%;
+        display: flex;
+        margin: auto;
+    }
+
+    .leftPanel{
+        width: 61%;
+    }
+    .rightPanel{
+        width: 39%;
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    .calculator{
+        width: 60%;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    
+    .calculator{
+        width: 60%;
+    }
+    
+    .screen{
+        height: 130px;
+    }
+
+    .operations{
+        font-size: .9em;
+        text-align: right;
+        padding: 6px;
+    }
+    
+    .accumulator{
+        font-size: 2.7em;
+        text-align: right;
+        padding: 6px;
+        font-weight: 600;
+    }
+
+    .key{
+        height: 70px;
+    }
+}
