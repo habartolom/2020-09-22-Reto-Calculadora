@@ -12,10 +12,10 @@
 <div class="container">
     <div class="calculator">
         <div class="leftPanel">
-            <div class="header">Estandar</div>
+            <div class="header">Estándar</div>
             <div class="screen">
-                <div class="operations">65444444444444444444444444444</div>
-                <div class="accumulator">1.234.567.890.123.456</div>
+                <div class="operations" id="operationsScreen"></div>
+                <div class="accumulator" id="accumulator">0</div>
             </div>
             <div class="keyboard">
                 <div class="memory">
@@ -27,39 +27,39 @@
                 </div>
                 <div class="row">
                     <button class="key">%</button>
-                    <button class="key">CE</button>
-                    <button class="key">C</button>
-                    <button class="key">BS</button>
+                    <button class="key" id="clearEntry">CE</button>
+                    <button class="key" id="clear">C</button>
+                    <button class="key" id="backSpace">BS</button>
                 </div>
                 <div class="row">
-                    <button class="key">x</button>
-                    <button class="key">x</button>
-                    <button class="key">x</button>
-                    <button class="key">x</button>
+                    <button class="key unary">1/x</button>
+                    <button class="key unary">x^2</button>
+                    <button class="key unary">x^1/2</button>
+                    <button class="key binary">/</button>
                 </div>
                 <div class="row">
-                    <button class="key dark">7</button>
-                    <button class="key dark">8</button>
-                    <button class="key dark">9</button>
-                    <button class="key">x</button>
+                    <button class="key dark number" id="7">7</button>
+                    <button class="key dark number" id="8">8</button>
+                    <button class="key dark number" id="9">9</button>
+                    <button class="key binary">x</button>
                 </div>
                 <div class="row">
-                    <button class="key dark">4</button>
-                    <button class="key dark">5</button>
-                    <button class="key dark">6</button>
-                    <button class="key">-</button>
+                    <button class="key dark number" id="4">4</button>
+                    <button class="key dark number" id="5">5</button>
+                    <button class="key dark number" id="6">6</button>
+                    <button class="key binary">-</button>
                 </div>
                 <div class="row">
-                    <button class="key dark">1</button>
-                    <button class="key dark">2</button>
-                    <button class="key dark">3</button>
-                    <button class="key">+</button>
+                    <button class="key dark number" id="1">1</button>
+                    <button class="key dark number" id="2">2</button>
+                    <button class="key dark number" id="3">3</button>
+                    <button class="key binary">+</button>
                 </div>
                 <div class="row">
                     <button class="key dark">+</button>
-                    <button class="key dark">0</button>
-                    <button class="key dark">.</button>
-                    <button class="key result">=</button>
+                    <button class="key dark number" id="0">0</button>
+                    <button class="key dark number" id=".">.</button>
+                    <button class="key result" id="equal">=</button>
                 </div>
             </div>
         </div>
@@ -68,20 +68,14 @@
                 <div class="option">Historial</div>
                 <div class="option">Memoria</div>
             </div>
-            <div class="registry">
-                <div class="record">
-                    <div class="operations">1234567897987 + 65687</div>
-                    <div class="accumulator history">654654654654</div>
-                </div>
-                <div class="record">
-                    <div class="operations">1234567897987 + 65687</div>
-                    <div class="accumulator history">654654654654</div>
-                </div>
+            <div class="registry" id="registry">
+
             </div>
 
         </div>
     </div>
 </div>
+<script src="./assets/scritps/script.js"></script>
 </body>
 
 </html>

@@ -11,22 +11,22 @@
     color: white;
 }
 
-.leftPanel{
-    border: 1px solid black;
-}
+
 .header{
-    border: 1px solid black;
     height: 40px;
     display: flex;
     align-items: center;
     padding-left: 10px;
+    font-weight: bold;
 }
 
 .screen{
     height: 130px;
+    padding: 3px;
 }
 
 .operations{
+    min-height: 27px;
     font-size: .8em;
     text-align: right;
     padding: 6px;
@@ -41,6 +41,7 @@
 
 .keyboard{
     width: 100%;
+    padding: 1px;
 }
 
 .row{
@@ -50,7 +51,6 @@
 
 .memory{
     display: flex;
-    
 }
 
 .memoryKey{
@@ -64,11 +64,20 @@
     margin: 1px;
     background-color: #504F4E;
     color: white;
+    margin: 1px;
+    border: none;
+    outline: none;
+}
+.memoryKey:hover{
+    background-color: #323232;
+}
+.memoryKey:active{
+    box-shadow: -1px -1px 1px #323232;
 }
 
 .key{
     width: 24.8%;
-    height: 50px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,35 +85,57 @@
     border-radius: 0;
     background-color: #323232;
     color: white;
+    margin: 1px;
+    border: none;
+    outline: none;
+}
+.key:hover{
+    background-color: #242424;
+}
+.key:active{
+    box-shadow: -1px -1px 1px #242424;
 }
 
 .key.dark{
     background-color: #111111;
     color: white;
-
+}
+.key.dark:hover{
+    background-color: #242424;
+}
+.key.dark:active{
+    box-shadow: -1px -1px 1px #242424;
 }
 
 .key.result{
     background-color: #504F4E;
     color: white;
 }
-
-.rightPanel{
-    border: 1px solid black;
+.key.result:hover{
+    background-color: #242424;
+}
+.key.result:active{
+    box-shadow: -1px -1px 1px #242424;
 }
 
 .options{
-    border: 1px solid black;
     height: 40px;
     display: flex;
     align-items: center;
+    margin: 5px 0;
 }
 
 .option{
-    width: 85px;
     font-size: .9em;
     text-align: center;
     font-weight: bold;
+    padding: 8px 0;
+    margin: 20px; 
+    border-bottom: 3px solid white;
+}
+
+.registry{
+    padding: 4px;
 }
 
 .record{
