@@ -18,12 +18,12 @@
                 <div class="accumulator" id="accumulator">0</div>
             </div>
             <div class="keyboard">
-                <div class="memory">
-                    <button class="memoryKey">MC</button>
-                    <button class="memoryKey">MR</button>
-                    <button class="memoryKey">M+</button>
-                    <button class="memoryKey">M-</button>
-                    <button class="memoryKey">MS</button>
+                <div class="memoryButtons">
+                    <button class="memoryKey disabled" id="cleanMemory" disabled>MC</button>
+                    <button class="memoryKey disabled" id="recoverMemory" disabled>MR</button>
+                    <button class="memoryKey" id="addToMemory">M+</button>
+                    <button class="memoryKey" id="substractToMemory">M-</button>
+                    <button class="memoryKey" id="storageInMemory">MS</button>
                 </div>
                 <div class="row">
                     <button class="key unary" id="percentage">%</button>
@@ -69,10 +69,10 @@
                 <div class="option" id="memoryBtn" >Memoria</div>
             </div>
             <div class="registry" id="registry">
-
+                <span class = "empty" id='historyEmpty'>Aún no hay historial</span>
             </div>
             <div class="registry inactive" id="memory">
-                <span class = "emptyMemory">No hay nada guardado en la memoria</span>
+                <span class = "empty" id='memoryEmpty'>No hay nada guardado en la memoria</span>
             </div>
 
         </div>

@@ -6,46 +6,52 @@ const clear = document.getElementById('clear');
 const backSpace = document.getElementById('backSpace');
 const binaryOps = document.getElementsByClassName('binary');
 const equal = document.getElementById('equal');
+const historyBtn = document.getElementById('historyBtn');
+const memoryBtn = document.getElementById('memoryBtn');
 const registry = document.getElementById('registry');
 const memory = document.getElementById('memory');
 const operationsHistory = document.getElementById('operationsHistory');
 const resultHistory = document.getElementById('resultHistory');
 const unaryOps = document.getElementsByClassName('unary');
+const cleanMemory = document.getElementById('cleanMemory');
+const recoverMemory = document.getElementById('recoverMemory');
+const addToMemory = document.getElementById('addToMemory');
+const substractToMemory = document.getElementById('substractToMemory');
+const storageInMemory = document.getElementById('storageInMemory');
 
-var queueOps = [];
-var entryConcatenable = false;
-var newRecord = true;
+
+let queueOps = [];
+let entryConcatenable = false;
 
 // Event Listener para botones numéricos
 for (let i = 0; i < numbers.length; i++) {
     numbers[i].addEventListener('click', () => {
-        if (newRecord)
-            operationsScreen.innerText = '';
-        
         if(queueOps.length == 1){
-            registry.innerHTML = `
-            <div class="record">
-            <div class="operations" id="operationsHistory">${operationsScreen.innerText}</div>
-            <div class="accumulator history" id="resultHistory">${queueOps.pop()}</div>
-            </div>` + registry.innerHTML;
-            operationsScreen.innerText = '';
+            queueOps.pop();
+            insertRecord(operationsScreen.innerText, entry.innerText);
         }
         if(queueOps.length == 3){
-            let opsArray = operationsScreen.innerText.split(' ');
-            opsArray.pop();
-            queueOps.pop();
-            operationsScreen.innerText = opsArray.join(' ');
+            let array = operationsScreen.innerText.split(' ');
+            array.pop();
+            operationsScreen.innerText = array.join(' ');
+            queueOps.pop();       
         }
-
-        validateEntry(numbers[i].innerText);
+        validateEntry(numbers[i].innerText);   
     });
 }
 
 // Event Listener para botón CE
 clearEntry.addEventListener('click', () => {
+    
+    if(queueOps.length % 2 == 1){
+        if(queueOps.length == 1)
+        insertRecord(operationsScreen.innerText, entry.innerText);
+        let array = operationsScreen.innerText.split(' ');
+        array.pop();
+        operationsScreen.innerText = array.join(' ');
+        queueOps.pop();
+    }
     entry.innerText = '0';
-    if (newRecord)
-        operationsScreen.innerText = '';
 });
 
 // Event Listener para botón C
@@ -68,27 +74,32 @@ backSpace.addEventListener('click', () => {
 });
 
 // Event Listener para los botones de operaciones Unarias.
-for (let i = 0; i < unaryOps.length; i++){
+for (let i = 0; i < unaryOps.length; i++) {
     let unaryOp = unaryOps[i];
     unaryOp.addEventListener('click', () => {
         let numberInEntry = parseFloat(entry.innerText);
-        let uoperator = unaryOp.id;
-        let result = doAlgebraicOperation(numberInEntry, uoperator);
+        let uOperator = unaryOp.id;
+        let result = doAlgebraicOperation(numberInEntry, uOperator);
 
-        if(queueOps.length % 2 == 1){
-            queueOps.pop();
-            let opsArray = operationsScreen.innerText.split(' ');
-            let lastNumber = opsArray.pop();
-            opsArray.push(uoperator + '(' + lastNumber + ')');
-            operationsScreen.innerText = opsArray.join(' ');
+        if (queueOps.length % 2 == 0) {
+
+            if (queueOps.length == 0)
+                operationsScreen.innerText = uOperator + '(' + numberInEntry + ')';
+            else
+                operationsScreen.innerText += ' ' + uOperator + '(' + numberInEntry + ')';
+
         }
-        else
-            operationsScreen.innerText += ' ' + uoperator + '(' + numberInEntry + ')';
-
+        else {
+            let array = operationsScreen.innerText.split(' ');
+            let lastNumber = array.pop();
+            array.push(uOperator + '(' + lastNumber + ')');
+            operationsScreen.innerText = array.join(' ');
+            queueOps.pop();
+        }
         entry.innerText = result;
+        queueOps.push(result);
 
         entryConcatenable = false;
-        queueOps.push(result);
     });
 }
 
@@ -97,76 +108,91 @@ for (let i = 0; i < binaryOps.length; i++) {
     let binaryOp = binaryOps[i];
 
     binaryOp.addEventListener('click', () => {
-        const isUnaryOperation = queueOps.length % 2 != 0;
         let numberInEntry = parseFloat(entry.innerText);
         let newOperator = binaryOp.innerText;
 
         if (queueOps.length == 0) {
+            operationsScreen.innerText = ' ' + numberInEntry + ' ' + newOperator;
             queueOps.push(numberInEntry);
-            queueOps.push(newOperator);
-            operationsScreen.innerText += ' ' + numberInEntry + ' ' + newOperator;
         }
         else if (queueOps.length == 1) {
-            queueOps.push(newOperator);
             operationsScreen.innerText += ' ' + newOperator;
         }
-        else {
-            if (isUnaryOperation)
-                queueOps.pop();
-
-            let oldOperator = queueOps.pop();
-            let number = queueOps.pop();
-            let result = doArithmeticOperations(number, numberInEntry, oldOperator);
-            queueOps.push(result);
-            queueOps.push(newOperator);
-            entry.innerText = result;
-
-            if (isUnaryOperation)
-                operationsScreen.innerText += ' ' + newOperator;
-            else
+        else if (queueOps.length == 2) {
+            /*2+1+ */
+            if (entryConcatenable) {
                 operationsScreen.innerText += ' ' + numberInEntry + ' ' + newOperator;
+                let result = binaryQueueOperation(numberInEntry);
+                entry.innerText = result;
+                queueOps.push(result);
+            }
+            /*2+/*/
+            else {
+                let array = operationsScreen.innerText.split(' ');
+                array.pop();
+                array.push(newOperator);
+                operationsScreen.innerText = array.join(' ');
+                queueOps.pop();
+            }
+        }
+        else {
+            operationsScreen.innerText += ' ' + newOperator;
+            queueOps.pop();
+            let result = binaryQueueOperation(numberInEntry);
+            entry.innerText = result;
+            queueOps.push(result);
         }
 
+        queueOps.push(newOperator);
         entryConcatenable = false;
     });
 }
 
+function binaryQueueOperation(number2){
+    let oldOperator = queueOps.pop();
+    let number = queueOps.pop();
+    return doArithmeticOperations(number, number2, oldOperator);
+}
+
 // Event Listener para el boton igual
-equal.addEventListener('click', ()=>{
-    const isUnaryOperation = queueOps.length % 2 != 0;
+equal.addEventListener('click', () => {
     let numberInEntry = parseFloat(entry.innerText);
-    let equalKey = equal.innerText;
+    let equalOperator = equal.innerText;
 
     if(queueOps.length == 0){
-        operationsScreen.innerText = ' ' + numberInEntry + ' ' + equalKey;
+        operationsScreen.innerText = numberInEntry + ' ' + equalOperator;
     }
     else if(queueOps.length == 1){
-        operationsScreen.innertext += ' ' + equalKey;
-        entry.innerText = queueOps.pop();
+        operationsScreen.innerText += ' ' + equalOperator;
+        queueOps.pop();
+    }
+    else if(queueOps.length == 2){
+        operationsScreen.innerText += ' ' + numberInEntry + ' ' + equalOperator;
+        let result = binaryQueueOperation(numberInEntry);
+        entry.innerText = result;
     }
     else{
-        if(isUnaryOperation){
-            queueOps.pop();
-        }
-        let oldOperator = queueOps.pop();
-        let number = queueOps.pop();
-        let result = doArithmeticOperations(number, numberInEntry, oldOperator);
-        entry.innerText = result;
-
-        if (isUnaryOperation)
-            operationsScreen.innerText += ' ' + equalKey;
-        else
-            operationsScreen.innerText += ' ' + numberInEntry + ' ' + equalKey;
+        operationsScreen.innerText += ' ' + equalOperator;
+        queueOps.pop();
+        let result = binaryQueueOperation(numberInEntry);
+        entry.innerText = result;       
     }
     
+
     entryConcatenable = false;
-    newRecord = true;
-    registry.innerHTML = `
-        <div class="record">
-            <div class="operations" id="operationsHistory">${operationsScreen.innerText}</div>
-            <div class="accumulator history" id="resultHistory">${entry.innerText}</div>
-        </div>` + registry.innerHTML;
+    //newRecord = true;
+    insertRecord(operationsScreen.innerText, entry.innerText);
 });
+
+function insertRecord(operations, result){
+    if(registry.lastElementChild.localName == 'span')
+        registry.removeChild(document.getElementById('historyEmpty'));
+    registry.innerHTML = `
+    <div class="record">
+        <div class="operations" id="operationsHistory">${operations}</div>
+        <div class="accumulator history" id="resultHistory">${result}</div>
+    </div>` + registry.innerHTML;
+}
 
 // Función que revisa el caracter ingresado al oprimir una de las teclas numéricas
 function validateEntry(character) {
@@ -176,7 +202,6 @@ function validateEntry(character) {
         storedNumber = entry.innerText;
 
     entryConcatenable = true;
-    newRecord = false;
 
     // Si lo almacenado no tiene '.'
     if (storedNumber.indexOf('.') == -1) {
@@ -238,19 +263,76 @@ function doArithmeticOperations(num1, num2, binaryOp) {
     return parseFloat(result.toPrecision(16));
 }
 
-const historyBtn = document.getElementById('historyBtn');
-const memoryBtn = document.getElementById('memoryBtn');
 
-historyBtn.addEventListener('click', ()=>{
+historyBtn.addEventListener('click', () => {
     registry.classList.remove('inactive');
     memory.classList.add('inactive');
     historyBtn.classList.add('selected');
     memoryBtn.classList.remove('selected');
 });
 
-memoryBtn.addEventListener('click', ()=>{
+memoryBtn.addEventListener('click', () => {
     memory.classList.remove('inactive');
     registry.classList.add('inactive');
     memoryBtn.classList.add('selected');
     historyBtn.classList.remove('selected');
 });
+
+
+cleanMemory.addEventListener('click', ()=>{
+    desactivateMemoryButtons();
+    memory.innerHTML = '<span class = "empty" id="memoryEmpty">No hay nada guardado en la memoria</span>';
+});
+recoverMemory.addEventListener('click', ()=>{
+    entry.innerText = memory.firstElementChild.innerText;
+});
+addToMemory.addEventListener('click', ()=>{
+    activateMemoryButtons();
+    if(memory.lastElementChild.localName == 'span')
+        insertMemory(doArithmeticOperations(0, parseFloat(entry.innerText), '+'));
+    else{
+        let inStorage = parseFloat(memory.firstElementChild.innerText);
+        let inEntry = parseFloat(entry.innerText);
+        memory.firstElementChild.innerText = doArithmeticOperations(inStorage, inEntry, '+');
+    }
+    entryConcatenable = false;
+});
+substractToMemory.addEventListener('click', ()=>{
+    activateMemoryButtons();
+    if(memory.lastElementChild.localName == 'span')
+        insertMemory(doArithmeticOperations(0, parseFloat(entry.innerText), '-'));
+    else{
+        let inStorage = parseFloat(memory.firstElementChild.innerText);
+        let inEntry = parseFloat(entry.innerText);
+        memory.firstElementChild.innerText = doArithmeticOperations(inStorage, inEntry, '-');
+    }
+    entryConcatenable = false;
+});
+storageInMemory.addEventListener('click', ()=>{
+    activateMemoryButtons();
+    insertMemory(entry.innerText);
+    entryConcatenable = false;
+});
+
+
+function activateMemoryButtons(){
+    cleanMemory.removeAttribute('disabled');
+    recoverMemory.removeAttribute('disabled');
+    cleanMemory.classList.remove('disabled');
+    recoverMemory.classList.remove('disabled');
+
+}
+
+function desactivateMemoryButtons(){
+    cleanMemory.setAttribute('disabled', 'true');
+    recoverMemory.setAttribute('disabled', 'true');
+    cleanMemory.classList.add('disabled');
+    recoverMemory.classList.add('disabled');
+}
+
+function insertMemory(value){
+    if(memory.lastElementChild.localName == 'span')
+        memory.removeChild(document.getElementById('memoryEmpty'));
+    memory.innerHTML = `
+    <div class="accumulator history" id="memoryRecord">${value}</div>` + memory.innerHTML;
+}

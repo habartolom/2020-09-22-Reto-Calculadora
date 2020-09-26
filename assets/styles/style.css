@@ -49,7 +49,7 @@
     justify-content: space-around;
 }
 
-.memory{
+.memoryButtons{
     display: flex;
 }
 
@@ -74,6 +74,13 @@
 }
 .memoryKey:active{
     box-shadow: -1px -1px 1px #323232;
+}
+
+.memoryKey.disabled{
+    color: #323232;
+}
+.memoryKey.disabled:hover{
+    background-color: #504F4E;
 }
 
 .key{
@@ -166,7 +173,7 @@
     font-size: 1.4em;
 }
 
-.emptyMemory{
+.empty{
     font-size: .9em;
     text-align: right;
     padding: 6px;
