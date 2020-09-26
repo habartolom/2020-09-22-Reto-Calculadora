@@ -11,20 +11,33 @@ const operationsHistory = document.getElementById('operationsHistory');
 const resultHistory = document.getElementById('resultHistory');
 const unaryOps = document.getElementsByClassName('unary');
 
-let queueOps = [];
-let entryConcatenable = false;
-let newRecord = true;
+var queueOps = [];
+var entryConcatenable = false;
+var newRecord = true;
 
 // Event Listener para botones numéricos
 for (let i = 0; i < numbers.length; i++) {
     numbers[i].addEventListener('click', () => {
         if (newRecord)
             operationsScreen.innerText = '';
-        if(queueOps.length % 2 == 1)
+        
+        if(queueOps.length == 1){
+            registry.innerHTML = `
+            <div class="record">
+            <div class="operations" id="operationsHistory">${operationsScreen.innerText}</div>
+            <div class="accumulator history" id="resultHistory">${queueOps.pop()}</div>
+            </div>` + registry.innerHTML;
             operationsScreen.innerText = '';
+        }
+        if(queueOps.length == 3){
+            let opsArray = operationsScreen.innerText.split(' ');
+            opsArray.pop();
+            queueOps.pop();
+            operationsScreen.innerText = opsArray.join(' ');
+        }
 
         validateEntry(numbers[i].innerText);
-    })
+    });
 }
 
 // Event Listener para botón CE
@@ -63,9 +76,14 @@ for (let i = 0; i < unaryOps.length; i++){
 
         if(queueOps.length % 2 == 1){
             queueOps.pop();
+            let opsArray = operationsScreen.innerText.split(' ');
+            let lastNumber = opsArray.pop();
+            opsArray.push(uoperator + '(' + lastNumber + ')');
+            operationsScreen.innerText = opsArray.join(' ');
         }
-        operationsScreen.innerText += ' ' + uoperator + '(' + numberInEntry + ')';
-        
+        else
+            operationsScreen.innerText += ' ' + uoperator + '(' + numberInEntry + ')';
+
         entry.innerText = result;
 
         entryConcatenable = false;
@@ -144,14 +162,13 @@ equal.addEventListener('click', ()=>{
     newRecord = true;
     registry.innerHTML = `
         <div class="record">
-            <div class="operations" id="operationsHistory">${operationsScreen.innerHTML}</div>
-            <div class="accumulator history" id="resultHistory">${entry.innerHTML}</div>
+            <div class="operations" id="operationsHistory">${operationsScreen.innerText}</div>
+            <div class="accumulator history" id="resultHistory">${entry.innerText}</div>
         </div>` + registry.innerHTML;
 });
 
 // Función que revisa el caracter ingresado al oprimir una de las teclas numéricas
 function validateEntry(character) {
-
     let storedNumber = '0';
 
     if (entryConcatenable)
