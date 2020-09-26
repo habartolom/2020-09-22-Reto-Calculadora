@@ -7,6 +7,7 @@ const backSpace = document.getElementById('backSpace');
 const binaryOps = document.getElementsByClassName('binary');
 const equal = document.getElementById('equal');
 const registry = document.getElementById('registry');
+const memory = document.getElementById('memory');
 const operationsHistory = document.getElementById('operationsHistory');
 const resultHistory = document.getElementById('resultHistory');
 const unaryOps = document.getElementsByClassName('unary');
@@ -236,3 +237,20 @@ function doArithmeticOperations(num1, num2, binaryOp) {
     }
     return parseFloat(result.toPrecision(16));
 }
+
+const historyBtn = document.getElementById('historyBtn');
+const memoryBtn = document.getElementById('memoryBtn');
+
+historyBtn.addEventListener('click', ()=>{
+    registry.classList.remove('inactive');
+    memory.classList.add('inactive');
+    historyBtn.classList.add('selected');
+    memoryBtn.classList.remove('selected');
+});
+
+memoryBtn.addEventListener('click', ()=>{
+    memory.classList.remove('inactive');
+    registry.classList.add('inactive');
+    memoryBtn.classList.add('selected');
+    historyBtn.classList.remove('selected');
+});

@@ -67,6 +67,7 @@
     margin: 1px;
     border: none;
     outline: none;
+    cursor: pointer;
 }
 .memoryKey:hover{
     background-color: #323232;
@@ -88,6 +89,7 @@
     margin: 1px;
     border: none;
     outline: none;
+    cursor: pointer;
 }
 .key:hover{
     background-color: #242424;
@@ -131,11 +133,27 @@
     font-weight: bold;
     padding: 8px 0;
     margin: 20px; 
+    cursor: pointer;
+}
+
+.option.selected{
     border-bottom: 3px solid white;
 }
 
 .registry{
     padding: 4px;
+    margin-right: 15px;
+    height: 550px;
+    overflow-y: auto;
+}
+
+.registry::-webkit-scrollbar{
+    width: 0px;
+}
+
+.inactive{
+    display: none;
+    border-bottom: none;
 }
 
 .record{
@@ -147,6 +165,13 @@
 .accumulator.history{
     font-size: 1.4em;
 }
+
+.emptyMemory{
+    font-size: .9em;
+    text-align: right;
+    padding: 6px;
+}
+
 
 @media only screen and (min-width: 426px) {
     .calculator{
@@ -196,3 +221,4 @@
         height: 70px;
     }
 }
+
